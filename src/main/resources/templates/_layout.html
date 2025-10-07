@@ -12,7 +12,7 @@
   <nav>
     <a href="/">หน้าแรก</a>
     <span sec:authorize="isAuthenticated()">
-      <a sec:authorize="hasRole(STAFF)" href="/jobs/new">โพสต์งาน (STAFF)</a>
+      <a sec:authorize="hasRole('STAFF')" href="/jobs/new">โพสต์งาน (STAFF)</a>
       <a href="/logout">ออกจากระบบ</a>
     </span>
     <span sec:authorize="!isAuthenticated()">
