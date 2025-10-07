@@ -1,0 +1,8 @@
+<th:block th:replace="_layout :: body">
+  <h1>โพสต์งาน (เฉพาะ STAFF)</h1>
+  <form method="post" action="/jobs">
+    <div><label>ชื่องาน: <input type="text" name="title" required></label></div>
+    <div><label>รายละเอียด: <textarea name="description" rows="6" required></textarea></label></div>
+    <button type="submit">บันทึก</button>
+  </form>
+</th:block>

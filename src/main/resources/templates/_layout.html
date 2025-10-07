@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="th" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Campus Jobs</title>
+  <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<header>
+  <a href="/" class="brand">Campus Jobs</a>
+  <nav>
+    <a href="/">หน้าแรก</a>
+    <span th:if="${#authorization.expression('isAuthenticated()')}">
+      <a th:if="${#authorization.expression('hasRole(''STAFF'')')}" href="/jobs/new">โพสต์งาน (STAFF)</a>
+      <a href="/logout">ออกจากระบบ</a>
+    </span>
+    <span th:unless="${#authorization.expression('isAuthenticated()')}">
+      <a href="/login">เข้าสู่ระบบ</a>
+      <a href="/register">สมัครสมาชิก</a>
+    </span>
+  </nav>
+</header>
+<main>
+  <div th:replace="~{::body}"></div>
+</main>
+<footer>
+  <small>© Campus Jobs</small>
+</footer>
+</body>
+</html>

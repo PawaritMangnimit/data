@@ -1,0 +1,18 @@
+<th:block th:replace="_layout :: body">
+  <h1>สมัครสมาชิก</h1>
+  <div th:if="${error}" class="error" th:text="${error}"></div>
+  <div th:if="${ok}" class="ok" th:text="${ok}"></div>
+  <form method="post" action="/register">
+    <div><label>อีเมล (ใช้ล็อคอิน): <input type="email" name="email" required></label></div>
+    <div><label>รหัสผ่าน: <input type="password" name="password" required></label></div>
+    <div>
+      <label>บทบาท:
+        <select name="role" required>
+          <option value="STUDENT">นักศึกษา</option>
+          <option value="STAFF">อาจารย์/บุคลากร</option>
+        </select>
+      </label>
+    </div>
+    <button type="submit">สมัคร</button>
+  </form>
+</th:block>

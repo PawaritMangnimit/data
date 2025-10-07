@@ -1,0 +1,13 @@
+<th:block th:replace="_layout :: body">
+  <section>
+    <h1>รายการงานสำหรับนักศึกษา</h1>
+    <div th:if="${#lists.isEmpty(jobs)}">ยังไม่มีงาน</div>
+    <ul th:if="${!#lists.isEmpty(jobs)}" class="jobs">
+      <li th:each="j : ${jobs}">
+        <h3 th:text="${j.title}">ชื่องาน</h3>
+        <p th:text="${j.description}">รายละเอียด</p>
+        <small th:text="${#temporals.format(j.createdAt, 'dd/MM/yyyy HH:mm')}">วันที่</small>
+      </li>
+    </ul>
+  </section>
+</th:block>
