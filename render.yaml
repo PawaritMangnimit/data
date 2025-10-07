@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: campusjobs-java
+    runtime: docker
+    plan: free
+    region: oregon
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+    dockerfilePath: ./Dockerfile
