@@ -3,9 +3,8 @@ package com.example.campusjobs.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import com.example.campusjobs.services.DbUserDetailsService;
@@ -32,25 +31,25 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(reg -> reg
-                // ✅ อนุญาตหน้า public + static assets
-                .requestMatchers("/", "/login", "/register", "/css/**", "/js/**", "/images/**").permitAll()
-                // ✅ เฉพาะ STAFF เท่านั้นที่โพสต์งานได้
+                // ✅ อนุญาตเพจสาธารณะ + error + สตาติก
+                .requestMatchers("/", "/login", "/register", "/error",
+                                 "/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
+                // ✅ STAFF เท่านั้นที่โพสต์งานได้
                 .requestMatchers("/jobs/new", "/jobs").hasRole("STAFF")
-                // อื่นๆ ต้องล็อกอิน
+                // นอกนั้นต้องล็อกอิน
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
-                .loginPage("/login")     // ใช้หน้า /login ของเรา
+                .loginPage("/login")
                 .defaultSuccessUrl("/", true)
-                .permitAll()             // ✅ สำคัญ: อนุญาต anonymous เข้า /login
+                .permitAll()
             )
             .logout(log -> log
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/")
                 .permitAll()
-            )
-            .httpBasic(Customizer.withDefaults());
-
+            );
+        // ❌ ไม่เปิด httpBasic เพื่อไม่ให้ตอบ 401 กับ HEAD/health-check
         return http.build();
     }
 }
