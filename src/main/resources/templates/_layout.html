@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="th" xmlns:th="http://www.thymeleaf.org">
+<html lang="th" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,11 +11,11 @@
   <a href="/" class="brand">Campus Jobs</a>
   <nav>
     <a href="/">หน้าแรก</a>
-    <span th:if="${#authorization.expression('isAuthenticated()')}">
-      <a th:if="${#authorization.expression('hasRole(''STAFF'')')}" href="/jobs/new">โพสต์งาน (STAFF)</a>
+    <span sec:authorize="isAuthenticated()">
+      <a sec:authorize="hasRole(STAFF)" href="/jobs/new">โพสต์งาน (STAFF)</a>
       <a href="/logout">ออกจากระบบ</a>
     </span>
-    <span th:unless="${#authorization.expression('isAuthenticated()')}">
+    <span sec:authorize="!isAuthenticated()">
       <a href="/login">เข้าสู่ระบบ</a>
       <a href="/register">สมัครสมาชิก</a>
     </span>
