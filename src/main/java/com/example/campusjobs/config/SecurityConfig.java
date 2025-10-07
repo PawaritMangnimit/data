@@ -3,6 +3,7 @@ package com.example.campusjobs.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -31,25 +32,14 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(reg -> reg
-                // ✅ อนุญาตเพจสาธารณะ + error + สตาติก
-                .requestMatchers("/", "/login", "/register", "/error",
-                                 "/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
-                // ✅ STAFF เท่านั้นที่โพสต์งานได้
+                .requestMatchers("/", "/register", "/css/**", "/js/**", "/images/**", "/webjars/**", "/ping").permitAll()
                 .requestMatchers("/jobs/new", "/jobs").hasRole("STAFF")
-                // นอกนั้นต้องล็อกอิน
                 .anyRequest().authenticated()
             )
-            .formLogin(form -> form
-                .loginPage("/login")
-                .defaultSuccessUrl("/", true)
-                .permitAll()
-            )
-            .logout(log -> log
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/")
-                .permitAll()
-            );
-        // ❌ ไม่เปิด httpBasic เพื่อไม่ให้ตอบ 401 กับ HEAD/health-check
+            // ✅ ใช้ default login page ชั่วคราว
+            .formLogin(Customizer.withDefaults())
+            .logout(log -> log.logoutSuccessUrl("/").permitAll());
+        // ❌ ปิด httpBasic เพื่อตัด 401 บน HEAD
         return http.build();
     }
 }
